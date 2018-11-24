@@ -1,3 +1,5 @@
+package sourceCode;
+
 public class Jogador {
 
     // Variáveis de instância

@@ -1,8 +1,10 @@
+package sourceCode;
+
 import java.util.Scanner;
 public class Jogo {
 
     // Variáveis de instância
-    private Jogador[] lista;
+    private Jogador [] lista;
     private int posicao;
     private boolean vencedor; // Talvez colocar a variável na classe Jogador.
 
@@ -43,7 +45,7 @@ public class Jogo {
     /**
      * Consulta do vetor com os jogadores cadastrados
      */
-    public Jogador[] getJogador() {
+    public Jogador [] getJogador() {
         return lista;
     }
 
@@ -52,7 +54,7 @@ public class Jogo {
      *
      * @param vetor Vetor contendo os objetos Jogadores
      */
-    public void setLista(Jogador[] vetor) {
+    public void setLista(Jogador [] vetor) {
         lista = vetor;
     }
 
@@ -93,63 +95,141 @@ public class Jogo {
     }
 
     /**
+     * Método que busca o valor da variável 'posicao' onde o Jogador que teve seu dinheiro reduzido a menos de zero está.
+     */
+    public int buscarPosicao(String nome){
+        for(int i = 0; i < posicao; i++){
+            if(nome.equals(lista[i].getNome())) return i;
+        }
+        return -1;
+    }
+    
+    /**
+     * Método que exclui o Jogador que teve seu dinheiro reduzido a menos de zero.
+     * 
+     * @param jogador Jogador que deve ser excluído
+     */
+    public boolean excluir(Jogador jogador){
+        int indice = buscarPosicao(jogador.getNome());
+        if(indice < 0) return false;
+        for(int i = indice; i < posicao - 1 ; i++){
+            lista[i] = lista[i+1];
+        }
+        posicao--;
+        lista[posicao]=null;
+        return true;
+    }
+    
+    /**
+     * Método Perdeu Tudo
+     * 
+     * @param jogador Jogador que deve ser excluído
+     */
+    public void perdeuTudo(Jogador jogador) {
+        boolean perdeu = excluir(jogador);
+        if (perdeu) System.out.println("Você perdeu todo o seu dinheiro e foi excluído do jogo.");
+        jogada(); // Chamada para voltar ao jogo
+    }
+    
+    /**
+     * Método fim
+     */
+    public void fim() {
+        System.out.println("Todos jogadores foram excluídos. Reinicie o jogo.");
+        System.exit(0);
+    }
+    
+    /**
+     * Método Vencedor
+     */
+    public static void vencedor(Jogador jogador) {
+        System.out.println("Parabéns, " + jogador.getNome() + "! Você venceu o Jogo da Vida!");
+        System.exit(0);
+    }
+    
+    /**
      * Método para dizer de qual jogador é a vez.
      */
     public void jogada() {
         Scanner in = new Scanner(System.in);
         int opcao;
+        if (posicao == 0) fim();
         for (int i = 0; i < posicao; ) { // i++ acontece diretamente dentro dos condicionais.
             if (lista[i].getInicio() == 1) {
                 do {
-                    System.out.println(lista[i].getNome() + ", pressione 1 para rolar o dado!");
+                    System.out.println(lista[i].getNome());
+                    System.out.println("1 - para rolar o dado!");
                     opcao = in.nextInt();
                 } while (opcao != 1);
                 lista[i].setCasa(lista[i].getCasa() + AppJogoDaVida.dado());
+                System.out.print(lista[i].getNome() + " ");
                 Tabuleiro.tabuleiro(lista[i]);
-                i++;
+                System.out.println(lista[i].getCasa());
+                if (lista[i].getContaCorrente() < 0) perdeuTudo(lista[i]);
+                else i++;
             } else if (lista[i].getInicio() == 2) {
                 do {
-                    System.out.println(lista[i].getNome() + ", pressione 1 para rolar o dado!");
+                    System.out.println(lista[i].getNome());
+                    System.out.println("1 - para rolar o dado!");
                     opcao = in.nextInt();
                 } while (opcao != 1);
                 lista[i].setCasa(lista[i].getCasa() + AppJogoDaVida.dado());
+                System.out.print(lista[i].getNome() + " ");
                 Tabuleiro.tabuleiro(lista[i]);
-                if (posicao == 2) i = 0;
+                System.out.println(lista[i].getCasa());
+                if (lista[i].getContaCorrente() < 0) perdeuTudo(lista[i]);
                 else i++;
+                if (posicao == 2) i = 0;
             } else if (lista[i].getInicio() == 3) {
                 do {
-                    System.out.println(lista[i].getNome() + ", pressione 1 para rolar o dado!");
+                    System.out.println(lista[i].getNome());
+                    System.out.println("1 - para rolar o dado!");
                     opcao = in.nextInt();
                 } while (opcao != 1);
                 lista[i].setCasa(lista[i].getCasa() + AppJogoDaVida.dado());
+                System.out.print(lista[i].getNome() + " ");
                 Tabuleiro.tabuleiro(lista[i]);
-                if (posicao == 3) i = 0;
+                System.out.println(lista[i].getCasa());
+                if (lista[i].getContaCorrente() < 0) perdeuTudo(lista[i]);
                 else i++;
+                if (posicao == 3) i = 0;
             } else if (lista[i].getInicio() == 4) {
                 do {
-                    System.out.println(lista[i].getNome() + ", pressione 1 para rolar o dado!");
+                    System.out.println(lista[i].getNome());
+                    System.out.println("1 - para rolar o dado!");
                     opcao = in.nextInt();
                 } while (opcao != 1);
                 lista[i].setCasa(lista[i].getCasa() + AppJogoDaVida.dado());
+                System.out.print(lista[i].getNome() + " ");
                 Tabuleiro.tabuleiro(lista[i]);
-                if (posicao == 4) i = 0;
+                System.out.println(lista[i].getCasa());
+                if (lista[i].getContaCorrente() < 0) perdeuTudo(lista[i]);
                 else i++;
+                if (posicao == 4) i = 0;
             } else if (lista[i].getInicio() == 5) {
                 do {
-                    System.out.println(lista[i].getNome() + ", pressione 1 para rolar o dado!");
+                    System.out.println(lista[i].getNome());
+                    System.out.println("1 - para rolar o dado!");
                     opcao = in.nextInt();
                 } while (opcao != 1);
                 lista[i].setCasa(AppJogoDaVida.dado());
+                System.out.print(lista[i].getNome() + " ");
                 Tabuleiro.tabuleiro(lista[i]);
-                if (posicao == 5) i = 0;
+                System.out.println(lista[i].getCasa());
+                if (lista[i].getContaCorrente() < 0) perdeuTudo(lista[i]);
                 else i++;
+                if (posicao == 4) i = 0;
             } else { // lista[i].getInicio() == 6
                 do {
-                    System.out.println(lista[i].getNome() + ", pressione 1 para rolar o dado!");
+                    System.out.println(lista[i].getNome());
+                    System.out.println("1 - para rolar o dado!");                   
                     opcao = in.nextInt();
                 } while (opcao != 1);
                 lista[i].setCasa(lista[i].getCasa() + AppJogoDaVida.dado());
+                System.out.print(lista[i].getNome() + " ");
                 Tabuleiro.tabuleiro(lista[i]);
+                System.out.println(lista[i].getCasa());
+                if (lista[i].getContaCorrente() < 0) perdeuTudo(lista[i]);
                 i = 0;
             }
         }
