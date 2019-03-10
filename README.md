@@ -1,3 +1,3 @@
-# sourceCode.Jogo-da-Vida
+# Game-of-Life
 
 Repository for the Game of Life prototype.
